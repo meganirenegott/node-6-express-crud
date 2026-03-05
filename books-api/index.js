@@ -45,6 +45,11 @@ async function getOneBook(index) {
 }
 
 // 3. getOneBookTitle(index)
+async function getOneBookTitle(index) {
+    const data = await fs.readFile("books-data.json", "utf8")
+    const parsedBooks = JSON.parse(data);
+    return parsedBooks[index].title;
+}
 
 // ---------------------------------
 // API Endpoints
@@ -77,3 +82,9 @@ app.get("/get-one-book/:index", async (req, res) => {
 });
 
 // 3. GET /get-one-book-title/:index — try writing this one yourself! 
+app.get("/get-one-book-title/:index", async (req, res) => {
+    // get the value of the dynamic paramete
+    const index = req.params.index
+    const bookTitle = await getOneBookTitle(index);
+    res.json(bookTitle);
+})
